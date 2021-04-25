@@ -25,8 +25,16 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != true) {
 
 <body>
     <?php require 'partials/_nav.php' ?>
-    Welcome - <?php echo $_SESSION['username'] ?>
-
+    <div class="container">
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">
+                Welcome - <?php echo $_SESSION['username'] ?>
+            </h4>
+            <p>Hey how are you doing? Welcome to iSecure. You are logged in as Welcome - <?php echo $_SESSION['username'] ?> </p>
+            <hr>
+            <p class="mb-0">Whenever you need to, be sure to logout <a href="/logout.php">using this link</a>.</p>
+        </div>
+    </div>
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
