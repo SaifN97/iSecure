@@ -1,22 +1,29 @@
 <?php
+$showAlert = false;
+$showError = false;
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $showAlert = false;
-    $showError = false;
     include 'partials/_dbconnect.php';
     $username = $_POST['username'];
     $password = $_POST['password'];
     $cpassword = $_POST['cpassword'];
-    $exists = false;
 
-    if ($password == $cpassword && $exists == false) {
-        $sql = "INSERT INTO `users` (`username`, `password`, `dt`) VALUES ('$username', '$password', current_timestamp())";
-
-        $result = mysqli_query($conn, $sql);
-        if ($result) {
-            $showAlert = true;
-        }
+    //Check whether the username already exists 
+    $existSql = "SELECT * FROM `users` WHERE username = '$username'";
+    $result = mysqli_query($conn, $existSql);
+    $numExistsRows = mysqli_num_rows($result);
+    if ($numExistsRows > 0) {
+        $showError = "Username already exists";
     } else {
-        $showError = "Passwords do not match";
+        if ($password == $cpassword) {
+            $sql = "INSERT INTO `users` (`username`, `password`, `dt`) VALUES ('$username', '$password', current_timestamp())";
+
+            $result = mysqli_query($conn, $sql);
+            if ($result) {
+                $showAlert = true;
+            }
+        } else {
+            $showError = "Passwords do not match";
+        }
     }
 }
 
